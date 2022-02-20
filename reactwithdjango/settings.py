@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     #third party apps
     "graphene_django",
     'corsheaders',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    "graphql_auth",
 
 ]
 
@@ -125,11 +127,42 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 GRAPHENE = {
-    "SCHEMA": "reactwithdjango.schema.schema"
+    "SCHEMA": "reactwithdjango.schema.schema",
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
+
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:3000"
     # your React App domain
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+
+    'django.contrib.auth.backends.ModelBackend',
+    "graphql_auth.backends.GraphQLAuthBackend",
+
+
+
+    
+]
+
+
+GRAPHQL_JWT = {
+    
+    "JWT_ALLOW_ANY_CLASSES": [
+    "graphql_auth.mutations.Register",
+    "graphql_auth.mutations.VerifyAccount",
+    ],
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN":True,
+
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+

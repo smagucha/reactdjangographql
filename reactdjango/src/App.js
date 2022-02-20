@@ -1,28 +1,18 @@
-
-import { ApolloClient,ApolloProvider,InMemoryCache} from "@apollo/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './components/Home'
 import AddMovie from './components/AddMovie'
+import Homepage from './components/Homepage'
+
  function App() {
-   const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql/', // your GraphQL Server 
-  cache: new InMemoryCache()
-});
-   console.log(client)
   return (
-    <ApolloProvider client={client}>
-     <div style={{
-       backgroundColor: '#00000008',
-       display: 'flex',
-       justifyContent:'center',
-       alignItems:'center',
-       height: '100vh',
-       flexDirection: 'column',
-     }}>
-       <h2>My first Apollo app <span role="img" aria-label="rocket">🚀</span></h2>
-       <Home/>
-       <AddMovie/>
-      </div>
-   </ApolloProvider>
+     <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />}>
+          <Route index element={<Home />} />
+          <Route path="/AddMovie" element={<AddMovie />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
  export default App

@@ -1,5 +1,8 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphql_auth.schema import UserQuery, MeQuery
+from graphql_auth import mutations
+import graphql_jwt
 
 
 
@@ -11,7 +14,7 @@ class MovieType(DjangoObjectType):
         fields = ("id", "name", "description")
 
 
-class Query(graphene.ObjectType):
+class Query(UserQuery, MeQuery, graphene.ObjectType):
 	all_movie = graphene.List(MovieType)
 	movie_by_name = graphene.Field(MovieType, name=graphene.String(required=True))
 	# movie_by_name = graphene.Field(MovieType, movie_id=graphene.Int())
@@ -127,12 +130,19 @@ class DeleteMovie(graphene.Mutation):
     def mutate(root, info, id):
         movie_instance = Movie.objects.get(pk=id)
         movie_instance.delete()
-
         return None
-class Mutation(graphene.ObjectType):
+
+class AuthMutation(graphene.ObjectType):
+   register = mutations.Register.Field()
+   verify_account = mutations.VerifyAccount.Field()
+
+class Mutation(AuthMutation, graphene.ObjectType):
     create_Movie = CreateMovie.Field()
     update_Movie = UpdateMovie.Field()
     delete_Movie = DeleteMovie.Field()
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
 
 
 
