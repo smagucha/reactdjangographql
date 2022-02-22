@@ -10,6 +10,9 @@ function Nav(){
           <li>
             <Link to="/AddMovie">AddMovie</Link>
           </li>
+           <li>
+            <Link to="/Login">Login</Link>
+          </li>
         </ul>
       </nav>
 
