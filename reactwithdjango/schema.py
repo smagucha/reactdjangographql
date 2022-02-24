@@ -36,7 +36,7 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     all_movie = graphene.List(MovieType)
     all_customer = graphene.List(CustomerType)
     customer_by_id = graphene.Field(CustomerType, id =graphene.ID())
-    movie_by_name = graphene.Field(MovieType, name=graphene.String(required=True))
+    movie_by_id = graphene.Field(MovieType, id=graphene.ID())
     all_buses = graphene.List(BusesType)
     buses_by_id =graphene.Field(BusesType, id = graphene.ID())
     # movie_by_name = graphene.Field(MovieType, movie_id=graphene.Int())
@@ -44,9 +44,9 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     def resolve_all_movie(root, info):
     	return Movie.objects.all()
 
-    def resolve_movie_by_name(root, info, name):
+    def resolve_movie_by_id(root, info, id):
     	try:
-    		return Movie.objects.get(name=name)
+    		return Movie.objects.get(id=id)
     	except Movie.DoesNotExist:
     		return None
 
@@ -236,8 +236,6 @@ class DeleteMovie(graphene.Mutation):
 
 
 class CreateCustomer(graphene.Mutation):
-   
-
     class Arguments:
         firstname = graphene.String()
         lastname = graphene.String()
@@ -246,10 +244,9 @@ class CreateCustomer(graphene.Mutation):
         email = graphene.String()
         cus = graphene.ID()
     customer = graphene.Field(CustomerType)
-    
-
     def mutate(self, info, firstname= None, lastname = None, IDNumber = None, phone=None, email=None, cus=None):
         customer = Customer.objects.create(
+
             firstname=firstname,
             lastname = lastname,
             IDNumber = IDNumber, 

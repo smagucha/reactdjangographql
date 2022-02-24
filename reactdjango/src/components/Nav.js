@@ -1,17 +1,30 @@
 import { Outlet, Link } from "react-router-dom";
+import './static/css/nav.css'
 function Nav(){
 	return(
 		<>
       <nav>
         <ul>
           <li>
-            <Link to="/">Homepage</Link>
+            <Link className="active" to="/">Home</Link>
           </li>
           <li>
-            <Link to="/AddMovie">AddMovie</Link>
+            <Link to="/Ticket">Ticket</Link>
+          </li>
+           <li>
+            <Link to="/Buses">Buses</Link>
+          </li>
+           <li>
+            <Link to="/Routes">Routes</Link>
+          </li>
+           <li>
+            <Link to="/Customer">Customer</Link>
           </li>
            <li>
             <Link to="/Login">Login</Link>
+          </li>
+          <li style={{float: "right"}}>
+            <Link  to="/Login" >Logout</Link>
           </li>
         </ul>
       </nav>

@@ -50,6 +50,7 @@ class Ticket(models.Model):
 	seat =  models.CharField(max_length=50)
 	routes =  models.ForeignKey(Routes, on_delete=models.CASCADE)
 	cus = models.ForeignKey(User, on_delete=models.CASCADE)
+	departure_time =models.CharField(max_length=50, blank=True, null=True)
 
 # class Paymentmethod(models.Model):
 # 	pass

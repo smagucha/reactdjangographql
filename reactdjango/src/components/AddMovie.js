@@ -1,5 +1,6 @@
 import React from 'react';
 import { useMutation, gql } from '@apollo/client';
+import './static/css/form.css'
 
 function AddMovie() {
  
@@ -28,8 +29,8 @@ function AddMovie() {
     <div>
       <h1>New Movies</h1>
       <form onSubmit={handleCreateMovie}>
-        <input onChange={(event) => setName(event.target.value)} />
-        <input onChange={(event) => setDescription(event.target.value)} />
+        <input type="text" onChange={(event) => setName(event.target.value)} />
+        <input type="text" onChange={(event) => setDescription(event.target.value)} />
         <button disabled={loading} type="submit">
           Submit
         </button>
