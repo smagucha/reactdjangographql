@@ -18,13 +18,8 @@ function MovieDetail() {
 	if (error) return <p>something went wrong </p>;
 	return (
 		<div>
-			
-           
-           return <p>
-            {data.movieById.name}
-            {data.movieById.description}
-         </p>
-      
+          <p>{data.movieById.name}</p>
+          <p> {data.movieById.description}</p>      
 		</div>
 	)
 }

@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState } from "react";
 import { useMutation, gql } from '@apollo/client';
 import './static/css/form.css'
+
 
 function AddMovie() {
  
@@ -15,15 +17,19 @@ function AddMovie() {
 	}
 	`;
 
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [createMOVIE, { loading, error }] = useMutation(CREATE_MOVIE);
 
   function handleCreateMovie(event) {
     event.preventDefault();
-    // the mutate function also doesn't return a promise
     createMOVIE({ variables: { name, description } });
+    clearState();
   }
+  const clearState = () => {
+    setName('');
+    setDescription('');
+  };
 
   return (
     <div>
