@@ -48,7 +48,7 @@ function Home() {
               </Link>
             </td>
             <td>
-               <Link to="/">
+               <Link to={`/DeleteMovie/${movie.id}`}>
                   delete
               </Link>
             </td>
