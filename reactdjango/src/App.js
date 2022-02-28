@@ -6,6 +6,8 @@ import Login from './components/Login'
 import UpdateMovie from './components/UpdateMovie'
 import MovieDetail from './components/MovieDetail'
 import DeleteMovie from './components/DeleteMovie'
+import CreateBus from './components/CreateBus'
+import ListBus from './components/ListBus'
 
  function App() {
   return (
@@ -18,6 +20,8 @@ import DeleteMovie from './components/DeleteMovie'
           <Route path="/UpdateMovie/:id" element={<UpdateMovie />} />
           <Route path="/DeleteMovie/:id" element={<DeleteMovie />} />
           <Route path ='/MovieDetail/:id' element={<MovieDetail />} />
+          <Route path = '/CreateBus' element={<CreateBus/>}/>
+          <Route path='/ListBus' element={<ListBus/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

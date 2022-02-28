@@ -12,7 +12,7 @@ function Nav(){
             <Link to="/Ticket">Ticket</Link>
           </li>
            <li>
-            <Link to="/Buses">Buses</Link>
+            <Link to="/ListBus">Buses</Link>
           </li>
            <li>
             <Link to="/Routes">Routes</Link>

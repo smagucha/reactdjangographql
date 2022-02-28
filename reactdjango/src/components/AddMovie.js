@@ -22,8 +22,8 @@ function AddMovie() {
   const [createMOVIE, { loading, error }] = useMutation(CREATE_MOVIE);
 
   function handleCreateMovie(event) {
-    event.preventDefault();
     createMOVIE({ variables: { name, description } });
+    event.preventDefault();
     clearState();
   }
   const clearState = () => {
