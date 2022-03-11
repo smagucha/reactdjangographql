@@ -4,8 +4,9 @@ import {useQuery, gql} from "@apollo/client";
 const QUERY_BUSES = gql`
  query{
   allBuses{
+    id,
     name,
-    seat
+    seat,
   }
 }
 `;
@@ -35,8 +36,8 @@ function ListBus() {
             <td>{bus.name}</td>
             <td>{bus.seat}</td>
             <td>
-              <Link to={`/Updatebus/${bus.id}`}>
-                  update
+              <Link to={`/UpdateBus/${bus.id}`}>
+                 update
               </Link>
             </td>
             <td>

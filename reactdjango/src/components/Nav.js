@@ -15,7 +15,7 @@ function Nav(){
             <Link to="/ListBus">Buses</Link>
           </li>
            <li>
-            <Link to="/Routes">Routes</Link>
+            <Link to="/BusRoutes">Routes</Link>
           </li>
            <li>
             <Link to="/Customer">Customer</Link>

@@ -6,7 +6,7 @@ import graphql_jwt
 
 
 from django.contrib.auth.models import User
-from rctdj.models import Movie, Buses, Customer, Routes, Ticket
+from rctdj.models import Movie, Buses,Routes, Ticket
 
 
 
@@ -21,28 +21,41 @@ class CusType(DjangoObjectType):
         fields = '__all__'
 
 
-class CustomerType(DjangoObjectType):
-    class Meta:
-        model = Customer
-        fields = '__all__'
-
 class BusesType(DjangoObjectType):
     class Meta:
         model = Buses
         fields = '__all__'
 
+class TicketType(DjangoObjectType):
+    class Meta:
+        model = Ticket
+        fields ='__all__'
+
+class RouteType(DjangoObjectType):
+    class Meta:
+        model = Routes
+        fields ='__all__'
+
+
+
 
 class Query(UserQuery, MeQuery, graphene.ObjectType):
     all_movie = graphene.List(MovieType)
-    all_customer = graphene.List(CustomerType)
-    customer_by_id = graphene.Field(CustomerType, id =graphene.ID())
     movie_by_id = graphene.Field(MovieType, id=graphene.ID())
     all_buses = graphene.List(BusesType)
     buses_by_id =graphene.Field(BusesType, id = graphene.ID())
     # movie_by_name = graphene.Field(MovieType, movie_id=graphene.Int())
+    all_ticket = graphene.List(TicketType)
+    all_routes = graphene.List(RouteType)
+
+    def resolve_all_ticket(root, info):
+        return Ticket.objects.all()
 
     def resolve_all_movie(root, info):
     	return Movie.objects.all()
+
+    def resolve_all_routes(root, info):
+        return Routes.objects.all()
 
     def resolve_movie_by_id(root, info, id):
     	try:
@@ -50,14 +63,6 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     	except Movie.DoesNotExist:
     		return None
 
-    def resolve_all_customer(root, info):
-        return Customer.objects.all()
-
-    def resolve_customer_by_id(root, info, id):
-        try:
-            return Customer.objects.get(id=id)
-        except Customer.DoesNotExist:
-            return None
     def resolve_all_buses(root, info):
         return Buses.objects.all()
 
@@ -90,6 +95,22 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
 #         )
 #         movie_instance.save()
 #         return CreateMovie(movie=movie_instance)
+class createRoute(graphene.Mutation):
+    id = graphene.Int()
+    name = graphene.String()
+    From = graphene.String()
+    To = graphene.String()
+
+    class Arguments:
+        name = graphene.String()
+        From = graphene.String()
+        To = graphene.String()
+
+    def mutate(self,info, name, From, To):
+        route= Routes(name=name, From=From, To=To)
+        route.save()
+        return createRoute(id=route.id, name=route.name, From=route.From, To=route.To)
+
 class Createbus(graphene.Mutation):
     id = graphene.Int()
     name = graphene.String()
@@ -233,64 +254,6 @@ class DeleteMovie(graphene.Mutation):
         movie_instance = Movie.objects.get(pk=id)
         movie_instance.delete()
         return None
-
-
-class CreateCustomer(graphene.Mutation):
-    class Arguments:
-        firstname = graphene.String()
-        lastname = graphene.String()
-        IDNumber = graphene.Int()
-        phone = graphene.String()
-        email = graphene.String()
-        cus = graphene.ID()
-    customer = graphene.Field(CustomerType)
-    def mutate(self, info, firstname= None, lastname = None, IDNumber = None, phone=None, email=None, cus=None):
-        customer = Customer.objects.create(
-
-            firstname=firstname,
-            lastname = lastname,
-            IDNumber = IDNumber, 
-            phone=phone, 
-            email=email,
-            cus_id= cus,
-            )
-        customer.save()
-        return CreateCustomer(customer=customer)
-
-class UpdateCustomer(graphene.Mutation):
-    class Arguments:
-        id = graphene.ID()
-        firstname = graphene.String()
-        lastname = graphene.String()
-        IDNumber = graphene.Int()
-        phone = graphene.String()
-        email = graphene.String()
-        cus = graphene.ID()
-    customer = graphene.Field(CustomerType)
-    def mutate(self, info, id = None, firstname= None, lastname = None, IDNumber = None, phone=None, email=None, cus=None):
-
-        customer = Customer.objects.get(pk=id)
-        customer.firstname = firstname
-        customer.lastname = lastname
-        customer.IDNumber = IDNumber
-        customer.phone = phone
-        customer.email = email
-        customer.cus_id = cus
-        customer.save()
-        return UpdateCustomer(customer=customer)
-
-class DeleteCustomer(graphene.Mutation):
-    class Arguments:
-        id = graphene.ID()
-
-    Customer = graphene.Field(MovieType)
-
-    @staticmethod
-    def mutate(root, info, id):
-        customer_instance = Customer.objects.get(pk=id)
-        customer_instance.delete()
-        return None
-
         
 
 class AuthMutation(graphene.ObjectType):
@@ -302,15 +265,13 @@ class AuthMutation(graphene.ObjectType):
 
 
 class Mutation(AuthMutation, graphene.ObjectType):
+    create_route= createRoute.Field()
     create_bus = Createbus.Field()
     update_bus = UpdateBus.Field()
     delete_bus = DeleteBus.Field()
     create_Movie = CreateMovie.Field()
     update_Movie = UpdateMovie.Field()
     delete_Movie = DeleteMovie.Field()
-    create_customer = CreateCustomer.Field()
-    update_customer = UpdateCustomer.Field()
-    delete_customer = DeleteCustomer.Field()
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
