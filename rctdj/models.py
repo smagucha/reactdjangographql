@@ -38,11 +38,11 @@ class Routes(models.Model):
 class Ticket(models.Model):
 	firstname = models.CharField(max_length=50)
 	lastname=models.CharField(max_length=50)
-	IDNumber =models.CharField(max_length=50)
+	IDNumber =models.CharField(max_length=50,blank=True, null=True)
 	phone = models.CharField(max_length=50)
 	seat =  models.CharField(max_length=50)
 	routes =  models.ForeignKey(Routes, on_delete=models.CASCADE)
-	departure_time =models.CharField(max_length=50, blank=True, null=True)
+	departure_time =models.DateTimeField(blank=True, null=True)
 
 # class Paymentmethod(models.Model):
 # 	pass

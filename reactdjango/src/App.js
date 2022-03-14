@@ -13,6 +13,7 @@ import Deletebus from './components/Deletebus'
 import BusRoutes from './components/BusRoutes'
 import AddRoute from './components/AddRoute'
 import DeleteRoute from './components/DeleteRoute'
+import Ticketlist from './components/Ticketlist'
 
  function App() {
   return (
@@ -32,6 +33,7 @@ import DeleteRoute from './components/DeleteRoute'
           <Route path='/BusRoutes' element ={<BusRoutes/>}/>
           <Route path='/AddRoute' element={<AddRoute/>}/>
           <Route path="/DeleteRoute/:id" element ={<DeleteRoute/>}/>
+          <Route path="/Ticketlist" element={<Ticketlist/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

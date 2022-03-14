@@ -9,16 +9,13 @@ function Nav(){
             <Link className="active" to="/">Home</Link>
           </li>
           <li>
-            <Link to="/Ticket">Ticket</Link>
+            <Link to="/Ticketlist">Ticket</Link>
           </li>
            <li>
             <Link to="/ListBus">Buses</Link>
           </li>
            <li>
             <Link to="/BusRoutes">Routes</Link>
-          </li>
-           <li>
-            <Link to="/Customer">Customer</Link>
           </li>
            <li>
             <Link to="/Login">Login</Link>
